@@ -1,0 +1,20 @@
+date,category,employee name,employee address,expense description,pre-tax amount,tax name,tax amount
+Travel,Don Draper,"783 Park Ave, New York, NY 10021",Taxi ride, 350.00 ,NY Sales tax, 31.06, 12/1/2013 
+12/15/2013,Steve Jobs,"1 Infinite Loop,Cupertino, CA 95014",Team lunch,235.00 ,CA Sales tax, 17.63, Meals and Entertainment 
+12/31/2013,Computer - Hardware,"1 Infinite Loop, Cupertino, CA 95014",HP Laptop, 999.00 ,CA Sales tax, 74.93, Jonathan Ive 
+12/14/2013,Computer - Software,Tim Cook, Microsoft Office, 899.00 ,CA Sales tax, 67.43,"1 Infinite Loop, Cupertino, CA 95014" 
+12/6/2013,Computer - Software,Sergey Brin,"1600 Amphitheatre Parkway, Mountain View, CA 94043", 50.00 ,CA Sales tax, 3.75, iCloud Subscription 
+12/9/2013,Computer - Software,Larry Page,"1600 Amphitheatre Parkway, Mountain View, CA 94043",iCloud Subscription,CA Sales tax, 3.75, 50.00 
+11/10/2013,Meals and Entertainment,Eric Schmidt,"1600 Amphitheatre Parkway, Mountain View, CA 94043",Coffee with Steve, 300.00, 22.50, CA Sales tax 
+Travel,Larry Page,"1600 Amphitheatre Parkway, Mountain View, CA 94043",Taxi ride, 230.00 ,CA Sales tax, 17.25, 11/12/2013 
+11/20/2013,Don Draper,"783 Park Ave, New York, NY 10021",Client dinner, 200.00 ,NY Sales tax, 15.00,Meals and Entertainment 
+10/4/2013,Travel,"1600 Amphitheatre Parkway, Mountain View, CA 94043",Flight to Miami, 200.00 ,CA Sales tax, 15.00,Eric Schmidt 
+10/12/2013,Computer - Hardware,Don Draper,Macbook Air," 1,999.00 ",NY Sales tax, 177.41,"783 Park Ave, New York, NY 10021" 
+12/9/2013,Computer - Software,Steve Jobs,"1 Infinite Loop, Cupertino, CA 95014", 15.00 ,CA Sales tax, 1.13, Dropbox Subscription 
+9/18/2013,Travel,Tim Cook,"1 Infinite Loop, Cupertino, CA 95014",Taxi ride, 200.00 , 15.00 , CA Sales tax 
+Office Supplies,Larry Page,"1600 Amphitheatre Parkway, Mountain View, CA 94043",Paper, 200.00 ,CA Sales tax, 15.0, 09/30/2013 
+12/30/2013,Larry Page,"1600 Amphitheatre Parkway, Mountain View, CA 94043",Dinner with potential acquisition, 200.00 ,CA Sales tax, 15.00,Meals and Entertainment 
+1/6/2014,Computer - Hardware,"1600 Amphitheatre Parkway, Mountain View, CA 94043",iPhone, 200.00 ,CA Sales tax, 15.00, Eric Schmidt 
+1/7/2014,Travel,Steve Jobs,Airplane ticket to NY, 200.00 ,CA Sales tax, 15.00,"1 Infinite Loop, Cupertino, CA 95014" 
+2/3/2014,Meals and Entertainment,Jonathan Ive,"1 Infinite Loop, Cupertino, CA 95014", 12.00 ,CA Sales tax, 0.90, Starbucks coffee 
+2/18/2014,Travel,Eric Schmidt,"1600 Amphitheatre Parkway, Mountain View, CA 94043",Airplane ticket to NY," 1,500.00 ", 112.50, CA Sales tax 
