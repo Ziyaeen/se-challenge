@@ -28,6 +28,11 @@ Other things I am proud of: Clean division of code into different packages, base
 1. Make sure that JDK 1.8+ is installed.
  1. Check with: java -version
 1. A MySql server needs to be running on port 3306, and a database by the name of 'wave\_database' must exist.
+ 1. There are two ways to handle the MySql authentication:
+  1. Option 1: Use default configuration from this repo: username is 'root' and password is '123456'.
+  1. Option 2: Change the default behavior to whatever credentials are present by changing values in waveBoot/src/main/resources/application.properties:
+   1. spring.datasource.username should be set to the MySql username
+   1. spring.datasource.password should be set to the MySql password
 
 ## Regular Usage Instructions
 1. Simply run this command in the top-level (waveBoot) folder (folder that contains buid.gradle file): gradle bootRun
