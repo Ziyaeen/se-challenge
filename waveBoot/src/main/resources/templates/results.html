@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+  <head lang="en">
+    <title>Hello twitter</title>
+    <link href="/webjars/materializecss/0.96.0/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  </head>
+  <body>
+    <table class="responsive-table hoverable">
+      <thead>
+        <tr>
+          <th data-field="Month">Month</th>
+          <th data-field="Total Expenses">Total Expenses</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr th:each="monthlyExpense : ${monthlyExpenses}">
+          <td th:text="${monthlyExpense.key}">Month Name and Year</td>
+          <td th:text="${monthlyExpense.value}">Total Expense</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

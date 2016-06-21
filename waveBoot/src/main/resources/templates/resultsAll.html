@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+  <head lang="en">
+    <title>Hello twitter</title>
+    <link href="/webjars/materializecss/0.96.0/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  </head>
+  <body>
+    <table class="responsive-table hoverable">
+      <thead>
+        <tr>
+          <th data-field="date">Date</th>
+          <th data-field="category">Category</th>
+          <th data-field="Employee Name">Employee Name</th>
+          <th data-field="Employee Address">Employee Address</th>
+          <th data-field="Expense Description">Expense Description</th>
+          <th data-field="Pre-Tax Amount">Pre-Tax Amount</th>
+          <th data-field="Tax Name">Tax Name</th>
+          <th data-field="Tax Amount">Tax Amount</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr th:each="expense : ${expenses}">
+          <td th:text="${expense.date}">Date</td>
+          <td th:text="${expense.category}">Category</td>
+          <td th:text="${expense.employeeName}">Employee Name</td>
+          <td th:text="${expense.employeeAddress}">Employee Address</td>
+          <td th:text="${expense.expenseDescription}">Expense Description</td>
+          <td th:text="${expense.preTaxAmount}">Pre-Tax Amount</td>
+          <td th:text="${expense.taxName}">Tax Name</td>
+          <td th:text="${expense.taxAmount}">Tax Amount</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

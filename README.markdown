@@ -23,7 +23,7 @@ Other things I am proud of: Clean division of code into different packages, base
 
 ## Prerequisites
 1. Server will listen on port 8080. Therefore, port 8080 must be open before starting server.
-1. This project must be 'built' with gradle.
+1. This project must be 'built' with gradle 2.13+.
  1. Install gradle: On Mac OSx using brew: brew install gradle
 1. Make sure that JDK 1.8+ is installed.
  1. Check with: java -version
