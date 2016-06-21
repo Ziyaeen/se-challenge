@@ -17,9 +17,9 @@ should in fact be:
 
 This can be useful in cases where the CSV file has issues that has come up through faulty ETL processes.
 
-* The header line must look exactly like this: "date, category, employee name, employee address, expense description, pre-tax amount, tax name, and tax amount"
-
 Other things I am proud of: Clean division of code into different packages, based on the MVC model. This makes maintenance, and modification of code very easy, as it each component is cleanly separated.
+
+\*The header line must look exactly like this: "date, category, employee name, employee address, expense description, pre-tax amount, tax name, and tax amount"
 
 ## Prerequisites
 1. Server will listen on port 8080. Therefore, port 8080 must be open before starting server.
