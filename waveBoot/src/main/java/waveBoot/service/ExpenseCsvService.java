@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -53,6 +55,7 @@ public class ExpenseCsvService{
     public ArrayList<Expense> saveCsvFile(MultipartFile file) throws IOException, Exception{
 
         ArrayList<Expense> expenses = new ArrayList<Expense>();
+        ArrayList<String[]> lines = new ArrayList<String[]>();
         String line;
         String[] lineSplit;
         InputStream inputStream;
@@ -94,9 +97,10 @@ public class ExpenseCsvService{
                                           lineSplit[6],
                                           Double.parseDouble(sanitize4Double(lineSplit[7])));
             expenses.add(expense);
+            lines.add(lineSplit);
         }
         if(!userSession.getCsvIsTrained()){
-            userSession.setCsvIsTrained(csvTrain(expenses));
+            userSession.setCsvIsTrained(csvTrain(lines));
         }
         return expenses;
     }
@@ -143,7 +147,7 @@ public class ExpenseCsvService{
     * Method that is responsible for creating a ML instance, and using the expenses
     * as training data.
     */
-    private boolean csvTrain(ArrayList<Expense> expenses){
+    private boolean csvTrain(ArrayList<String[]> expenses){
         try {
             CsvMLService cml = new CsvMLService(new NaiveBayesMultinomialUpdateable());
             String[] categories = Expense.headerFormat;
@@ -152,16 +156,16 @@ public class ExpenseCsvService{
             }
             cml.setupAfterCategorysAdded();
             
-            for(Expense expense: expenses){
+            for(String[] expense: expenses){
                 int i=0;
-                cml.addData(expense.getDate().toString(), categories[i++]);
-                cml.addData(expense.getCategory(), categories[i++]);
-                cml.addData(expense.getEmployeeName(), categories[i++]);
-                cml.addData(expense.getEmployeeAddress(), categories[i++]);
-                cml.addData(expense.getExpenseDescription(), categories[i++]);
-                cml.addData(String.valueOf(expense.getPreTaxAmount()), categories[i++]);
-                cml.addData(expense.getTaxName(), categories[i++]);
-                cml.addData(String.valueOf(expense.getTaxAmount()), categories[i++]);
+                cml.addData(expense[i], categories[i++]);
+                cml.addData(expense[i], categories[i++]);
+                cml.addData(expense[i], categories[i++]);
+                cml.addData(expense[i], categories[i++]);
+                cml.addData(expense[i], categories[i++]);
+                cml.addData(expense[i], categories[i++]);
+                cml.addData(expense[i], categories[i++]);
+                cml.addData(expense[i], categories[i++]);
             }
             userSession.setCml(cml);
 
@@ -189,7 +193,7 @@ public class ExpenseCsvService{
             if(endIndex<0){
                 endIndex = line.length();
             }
-            lineSplitList.add(line.substring(startIndex, endIndex));
+            lineSplitList.add(line.substring(startIndex, endIndex).trim());
             startIndex = endIndex+1;
         }
         lineSplit = lineSplitList.toArray(lineSplit);
@@ -230,6 +234,8 @@ public class ExpenseCsvService{
          * max positions for each row. This is not perfect, and can face
          * issues when two rows are identical, or when a row contains two
          * max positions in two different columns, is that possible?
+         *
+         * This issue is probably gone away after 26/6/2016 commit.
          */
         //print2dMatrix(probMatrix);
         for(int row=0;row<arrLen;row++){
@@ -250,9 +256,21 @@ public class ExpenseCsvService{
     * in the comments for the 'myMLCsvSplit' method.
     */
     private void zeroNonVerticalMax(double[][] probMatrix){
-        for(int col=0;col<probMatrix.length;col++){
-            int colMaxRow = getColMaxRow(probMatrix, col);
-            setOtherRowsToZero(probMatrix, col, colMaxRow);
+        //Create set representing each column, then pick from availalbe columns with higest numerical value
+        HashSet<Integer> availCols = new HashSet<Integer>();
+        HashSet<Integer> availRows = new HashSet<Integer>();
+        for(int i=0;i<probMatrix[0].length;i++){
+            availCols.add(i);
+        }
+        for(int i=0;i<probMatrix.length;i++){
+            availRows.add(i);
+        }
+        while(!availCols.isEmpty()){
+            int colWithMaxVal = getColWithMaxVal(probMatrix, availCols);
+            availCols.remove(colWithMaxVal);
+            int colMaxRow = getColMaxRow(probMatrix, colWithMaxVal, availRows);
+            availRows.remove(colMaxRow);
+            setOtherRowsToZero(probMatrix, colWithMaxVal, colMaxRow);
         }
     }
 
@@ -260,22 +278,17 @@ public class ExpenseCsvService{
     * Method returns which row in the column 'col' should be selected as having
     * the higest ML probablilty based on previous training set.
     */
-    private int getColMaxRow(double[][] probMatrix, int col){
+    private int getColMaxRow(double[][] probMatrix, int col, HashSet<Integer> availRows){
         int curMaxRowIndex=0;
         double curMax=-1.0; //Doing this so that even a 0.0 value in matrix gets chosen by default
-        int prevCol=0;
-        for(int row=0;row<probMatrix.length;row++){
+        int otherCol=0;
+        Iterator<Integer> iter = availRows.iterator();
+
+        while(iter.hasNext()){
+            int row = iter.next();
             if(probMatrix[row][col]>curMax){
-                for(prevCol=0;prevCol<col;prevCol++){
-                    if(probMatrix[row][prevCol]>0.0){
-                        //This row is already taken, so choose another row
-                        probMatrix[row][col]=-1.0;
-                    }
-                }
-                if(probMatrix[row][col]>curMax){
-                    curMaxRowIndex = row;
-                    curMax = probMatrix[row][col];
-                }
+                curMaxRowIndex = row;
+                curMax = probMatrix[row][col];
             }
         }
         return curMaxRowIndex;
@@ -303,5 +316,27 @@ public class ExpenseCsvService{
             }
             System.out.println();
         }
+    }
+
+    /**
+     * Find the column in 2d matrix that has the highest overall value.
+     *
+     * Uses [availCols] as the columns that are available to look at.
+     */
+    private int getColWithMaxVal(double[][] probMatrix, HashSet<Integer> availCols){
+        Iterator<Integer> iter = availCols.iterator();
+        int colWithMaxVal = 0;
+        double maxVal=-1.0;
+
+        while(iter.hasNext()){
+            Integer col = iter.next();
+            for(int row=0;row<probMatrix.length;row++){
+                if(probMatrix[row][col]>maxVal){
+                    colWithMaxVal = col;
+                    maxVal = probMatrix[row][col];
+                }
+            }
+        }
+        return colWithMaxVal;
     }
 }
